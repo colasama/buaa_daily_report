@@ -1,4 +1,4 @@
-# 北航每日自动打卡脚本 v1.1
+# 北航每日自动打卡脚本 v1.2
 
 虽然到了学校还是没听打卡一次，但是我根本记不住啊！！不做人了！自动打卡机器上线！
 
@@ -34,9 +34,9 @@ from selenium import webdriver
 browser = webdriver.Chrome()
 browser.get("https://www.baidu.com/")
 ````
-6、下载main.py或in_school.py并修改其中关键信息，运行
+6、下载 `in_school.py` 并修改其中关键信息，运行
 ```
-python main.py
+python in_school.py
 ```
 
 ###centOS
