@@ -12,10 +12,12 @@ from selenium.webdriver.support import expected_conditions as EC
 
 user = ""  # 你的统一认证账号
 passwd = ""  # 你的统一认证密码json
-position = ("39.97805900941237", "116.34515751812742")  # 定位，经纬度, 这个经纬度是大运村一号楼
+position = ("39.985509521952515", "116.34639311")  # 定位，经纬度
+# position = ("34.65810099833996", "115.15464447227478")# Home
 SCKEY = ""  # 微信推送api，到http://sc.ftqq.com/ 免费申请，不需要请留空
-set_time = [(18, 12)]  # (小时，分钟)， 如果多个时间可以写成[(h, m),(h, m)]的形式
+set_time = [(17, 8)]  # (小时，分钟)， 如果多个时间可以写成[(h, m),(h, m)]的形式
 max_attempt = 5  # 失败重复五次
+
 
 def daka():
     login_flag, browser = login()
@@ -45,7 +47,7 @@ def daka():
     browser.implicitly_wait(3)
     while True:
         try:
-            if submit_button.text.find("submitted") != -1:
+            if submit_button.text.find("您已提交过信息") != -1:
                 result = "打卡失败，您已经提交过"
                 break
             elif submit_button.text.find("未到填报时间") != -1:
@@ -119,6 +121,7 @@ def login():
         else:
             # 出现密码错误提示框
             if len(browser.find_elements_by_css_selector('div.wapat-btn-box')) > 0:
+                browser.save_screenshot('login_error.png')
                 send_message("打卡失败，用户名密码错误，程序已退出，请检查")
                 logger.info("打卡失败，用户名密码错误，请检查")
                 exit(0)
@@ -160,7 +163,7 @@ def send_message(msg):
     if SCKEY == "":
         return
     payload = {'text': msg}
-    requests.get(f"https://sc.ftqq.com/{SCKEY}.send", params=payload)
+    requests.get(f"https://sctapi.ftqq.com/{SCKEY}.send", params=payload)
 
 
 if __name__ == "__main__":
